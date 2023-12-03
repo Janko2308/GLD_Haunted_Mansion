@@ -7,10 +7,11 @@ public class DoorOpenLook : MonoBehaviour
     public Camera playerCamera;
     public Transform doorTransform;
     public bool isDoorOpen = false;
+    public float targetYRotation;
 
     private float lookTimer = 0f;
     private float currentYRotation = 0f;
-    private float targetYRotation = 90f;
+    //private float targetYRotation = 90f;
 
     void Update()
     {
@@ -20,16 +21,18 @@ public class DoorOpenLook : MonoBehaviour
         if (Physics.Raycast(ray, out hit) && hit.transform == doorTransform)
         {
             lookTimer += Time.deltaTime;
-
+            Debug.Log("Looking at door for " + lookTimer + " seconds.");
             if (lookTimer >= requiredLookTime && !isDoorOpen)
             {
                 isDoorOpen = true;
                 Debug.Log("Door opened!");
+                lookTimer = 0f;
             }
             else if(lookTimer >= requiredLookTime && isDoorOpen)
             {
                 isDoorOpen = false;
                 Debug.Log("Door closed!");
+                lookTimer = 0f;
             }
         }
         else
